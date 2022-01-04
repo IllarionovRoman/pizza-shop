@@ -1,0 +1,38 @@
+{% extends 'website/base_template.html' %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Номер телефона</th>
+      <th scope="col">Адрес</th>
+      <th scope="col">Цена</th>
+        <th scope="col">Тип доставки</th>
+        <th scope="col">Статус</th>
+      <th scope="col">Просмотр</th>
+        <th scope="col">Удаление</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <th scope="row">{{ order.phone }}</th>
+          <th scope="row">{{ order.address }}</th>
+            <th scope="row">{{ order.cart.final_price }}</th>
+             <th scope="row">{{ order.buying_type }}</th>
+            <th scope="row">{{ order.status }}</th>
+          <td>
+            <a href="{{ order.get_absolute_url }}"><button class="btn btn-primary">Подробнее</button></a>
+          </td>
+            <td>
+            <a href="{{ order.get_delete_url }}"><button class="btn btn-danger">Удалить заказ</button></a>
+          </td>
+
+        </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'website/base_template.html' %}
+
+{% block content %}
+
+<h3 class="mt-3 mb-3">Заказы пользователя {{ request.user.username }}</h3>
+{% if not orders.count %}
+<div class="col-md-12" style="margin-top: 300px; margin-bottom: 300px;">
+    <h3>У вас еще нет заказов.
+        <a href="{% url 'base_url' %}">Начните делать покупки</a>
+    </h3>
+</div>
+{% else %}
+    <div class="col-md-12" style="margin-bottom: 250px; margin-top: 250px;">
+    <table class="table">
+        <thead>
+        <th scope="col">Номер</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Сумма</th>
+        <th scope="col">Товар</th>
+        <th scope="col">Дополнительно</th>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+        <tr>
+        <th scope="row">{{ order.id }}</th>
+        <td>{{ order.get_status_display }}</td>
+        <td>{{ order.cart.final_price }} руб</td>
+        <td>
+            <ul>
+                {% for item in order.cart.products.all %}
+                    <li>{{ item.product.name }} x{{ item.qty }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>
+            <a href="{{ order.get_absolute_url }}"><button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Подробнее</button></a>
+        </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endif %}
+{% endblock %}

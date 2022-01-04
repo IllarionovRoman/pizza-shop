@@ -1,0 +1,47 @@
+{% extends 'website/base_template.html' %}
+
+{% block content %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>pizza shop</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ products.image.url }}" alt="..." /></div>
+                    <div class="col-md-6">
+                        <div class="small mb-1">Pizza shop</div>
+                        <h1 class="display-5 fw-bolder">{{ products.name }}</h1>
+                        <div class="fs-5 mb-5">
+                            <span>Цена: {{ products.price }}</span>
+                        </div>
+                        <p class="lead">{{ products.description }}</p>
+                        <div class="d-flex">
+                            {% if request.user.is_authenticated %}
+                           <a href="{{ products.get_add_url }}"><button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                Добавить в корзину
+                            </button>
+                               {% endif %}
+                           </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
+
+{% endblock %}

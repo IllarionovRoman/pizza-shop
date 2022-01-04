@@ -1,0 +1,61 @@
+{% extends 'website/base_template.html' %}
+
+{% block content %}
+
+<h3 class="text-center mt-5 mb-5">Ваша корзина {% if not cart.products.count %}пуста{% endif %}</h3>
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+{% endif %}
+{% if cart.products.count %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Наименование</th>
+      <th scope="col">Изображение</th>
+      <th scope="col">Цена</th>
+      <th scope="col">Кол-во</th>
+        <th scope="col">Общая цена</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart.products.all %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <th scope="row">{{ item.product.name }}</th>
+          <td class="w-25"><img src="{{ item.product.image.url }}" class="img-fluid"></td>
+          <td>{{ item.product.price }} руб.</td>
+          <td>
+             <form action="{{ item.product.get_qty_url }}" method="POST">
+              {% csrf_token %}
+              <input type="number" class="form-control" name="qty" style="width: 70px;" min="1" value="{{ item.qty }}">
+              <br>
+              <input type="submit" class="btn btn-primary" value="Изменить кол-во">
+            </form>
+          </td>
+            <td>{{ item.final_price }} руб.</td>
+          <td>
+            <a href="{{ item.product.get_delete_url }}"><button class="btn btn-danger">Удалить из корзины</button></a>
+          </td>
+        </tr>
+    {% endfor %}
+        <tr>
+          <td colspan="3"></td>
+          <td>Итого:</td>
+          <td>{{ cart.total_products }}</td>
+          <td><strong>{{ cart.final_price }} руб.</strong></td>
+            <td><a href="{% url 'checkout_url' %}"><button class="btn btn-primary">Перейти к оформлению</button></a></td>
+        </tr>
+
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

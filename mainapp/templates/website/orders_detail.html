@@ -1,0 +1,37 @@
+{% extends 'website/base_template.html' %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Фамилия</th>
+      <th scope="col">Имя</th>
+      <th scope="col">Номер телефона</th>
+      <th scope="col">Адрес</th>
+      <th scope="col">Товар</th>
+        <th scope="col">Общая цена</th>
+      <th scope="col">Статус</th>
+    </tr>
+  </thead>
+  <body>
+        <tr>
+          <th scope="row">{{ order.first_name }}</th>
+          <th scope="row">{{ order.last_name }}</th>
+          <th scope="row">{{ order.phone }}</th>
+          <th scope="row">{{ order.address }}</th>
+          <td>
+            <ul>
+                {% for item in order.cart.products.all %}
+                    <li>{{ item.product.name }} x{{ item.qty }}</li>
+                {% endfor %}
+            </ul>
+            <td>{{ order.cart.final_price }} руб.</td>
+          <th scope="row">{{ order.status }}</th>
+        </td>
+
+
+
+        </tr>
+  </body>
+</table>
+{% endblock %}

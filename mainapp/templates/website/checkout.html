@@ -1,0 +1,41 @@
+{% extends 'website/base_template.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h3 class="text-center mt-5 mb-5">Оформление заказа</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Наименование</th>
+      <th scope="col">Изображение</th>
+      <th scope="col">Цена</th>
+      <th scope="col">Кол-во</th>
+        <th scope="col">Общая цена</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart.products.all %}
+        <tr>
+          <th scope="row">{{ item.product.name }}</th>
+          <td class="w-25"><img src="{{ item.product.image.url }}" class="img-fluid"></td>
+          <td>{{ item.product.price }} руб.</td>
+          <td>{{ item.qty }}</td>
+            <td>{{ item.final_price }} руб.</td>
+        </tr>
+    {% endfor %}
+        <tr>
+          <td colspan="2"></td>
+          <td>Итого:</td>
+          <td>{{ cart.total_products }}</td>
+          <td><strong>{{ cart.final_price }} руб.</strong></td>
+        </tr>
+  </tbody>
+</table>
+<hr>
+<h3 class="text-center mt-5 mb-5">Форма заказа</h3>
+<form action="{% url 'make_order' %}" method="POST">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <input type="submit" class="btn btn-success btn-block mb-3" value="Оформить заказ">
+</form>
+{% endblock content %}
